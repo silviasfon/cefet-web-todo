@@ -10,6 +10,7 @@ Tarefa.prototype.adicionaNaPagina = function (containerEl) {
   tarefaHtml.classList.add("item-tarefa", `categoria-${this.categoria}`);
   if (this.realizada) tarefaHtml.classList.add("marcado");
   containerEl.appendChild(tarefaHtml);
+  tarefaHtml.addEventListener("click", marcarFeito);
 };
 
 let tarefas = [
@@ -40,3 +41,23 @@ function novaTarefa(event) {
 document
   .querySelector("#incluir-nova-tarefa")
   .addEventListener("click", novaTarefa);
+
+function marcarFeito(event) {
+  event.target.classList.toggle("marcado");
+}
+
+function filtrarTarefas(event) {
+  let categoria = event.target.value;
+  const listaTarefas = document.querySelectorAll("#lista-tarefas li");
+  for (let tarefa of listaTarefas) {
+    if (!categoria || tarefa.classList.contains(`categoria-${categoria}`)) {
+      tarefa.classList.remove("retido-no-filtro");
+    } else {
+      tarefa.classList.add("retido-no-filtro");
+    }
+  }
+}
+
+document
+  .querySelector("#filtro-de-categoria")
+  .addEventListener("change", filtrarTarefas);
